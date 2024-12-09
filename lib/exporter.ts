@@ -23,7 +23,12 @@ export default function prepareTemplate(props: ExportReadmeProps) {
   }
   if (props.skills) {
     var skills = props.skills
-      .map((key) => `<img src="${getSkillUrl(SKILLS[key].icon)}"/>`)
+      .map(
+        (key) =>
+          `<a href="${SKILLS[key].url}"><img src="${getSkillUrl(
+            SKILLS[key].icon
+          )}" style="width: 40px;"/></a>`
+      )
       .join(" ");
     template += `\n## Skills\n${skills}`;
   }
