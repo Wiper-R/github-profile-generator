@@ -38,7 +38,7 @@ export function SocialSection() {
     <div className="text-white">
       <SectionHeading text="Socials" />
       <div className="space-y-2 grid grid-cols-[auto,auto]">
-        {Object.entries(socials).map(([value, _]) => (
+        {Object.entries(socials).map(([value]) => (
           <React.Fragment key={value}>
             <div className="flex gap-2 items-end">
               <img src={getDeviconUrl(SOCIALS[value].icon)} className="w-4" />

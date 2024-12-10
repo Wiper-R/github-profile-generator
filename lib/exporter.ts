@@ -19,7 +19,7 @@ export function getDeviconUrl(path: string): string {
   return url.toString();
 }
 export default function prepareTemplate(props: ExportReadmeProps) {
-  var template = "";
+  let template = "";
   if (props.title) {
     template += `# Hi, I am ${props.title}`;
   }
@@ -27,7 +27,7 @@ export default function prepareTemplate(props: ExportReadmeProps) {
     template += `\n${props.subTitle}`;
   }
   if (props.achievements) {
-    var achievements = props.achievements
+    let achievements = props.achievements
       .filter((e) => e.length > 0)
       .map((e, idx) => `${idx + 1}. ${e}`)
       .join("\n");
@@ -36,7 +36,7 @@ export default function prepareTemplate(props: ExportReadmeProps) {
   }
 
   if (props.skills) {
-    var skills = props.skills
+    let skills = props.skills
       .map(
         (key) =>
           `<a href="${SKILLS[key].url}"><img src="${getDeviconUrl(
@@ -48,7 +48,7 @@ export default function prepareTemplate(props: ExportReadmeProps) {
   }
 
   if (props.socials) {
-    var socials = Object.entries(props.socials)
+    let socials = Object.entries(props.socials)
       .map(
         ([key, value]) =>
           `<img src="${getDeviconUrl(

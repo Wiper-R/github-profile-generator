@@ -10,8 +10,6 @@ export type GithubUserDetails = {
   login: string;
 };
 
-type RepoData = {};
-
 export async function fetchUserRepos(username: string) {
   const res = await fetch(`https://api.github.com/users/${username}/repos`);
   const json = await res.json();

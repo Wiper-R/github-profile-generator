@@ -40,7 +40,7 @@ export default function ProfilePage() {
     })();
   }, []);
   function exportReadme() {
-    var template = prepareTemplate({
+    let template = prepareTemplate({
       title: sections.title ? title : undefined,
       skills: sections.skills ? skills : undefined,
       subTitle: sections.subtitle ? subTitle : undefined,
