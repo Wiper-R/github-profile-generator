@@ -1,8 +1,17 @@
 "use client";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 
-type Section = "title" | "subtitle" | "skills" | "achievements";
+export type Section =
+  | "title"
+  | "subtitle"
+  | "skills"
+  | "achievements"
+  | "socials"
+  | "snk";
 
+export type SocialEntry = {
+  [key: string]: string;
+};
 type SectionsContext = {
   sections: Record<Section, false>;
   addSection: (section: Section) => void;
@@ -17,7 +26,10 @@ type SectionsContext = {
   removeSkill: (value: string) => void;
 
   achievements: string[];
-  setAchievements: (value: string[]) => void;
+  setAchievements: React.Dispatch<React.SetStateAction<string[]>>;
+
+  socials: SocialEntry;
+  setSocials: React.Dispatch<React.SetStateAction<SocialEntry>>;
 };
 
 const SectionsContext = createContext<SectionsContext | undefined>(undefined);
@@ -28,6 +40,8 @@ export function SectionsProvider({ children }: PropsWithChildren) {
     skills: false,
     subtitle: false,
     achievements: false,
+    socials: false,
+    snk: false,
   });
   const [title, setTitle] = useState<string>("");
   const [subTitle, setSubTitle] = useState<string>(
@@ -35,6 +49,7 @@ export function SectionsProvider({ children }: PropsWithChildren) {
   );
   const [skills, setSkills] = useState<string[]>([]);
   const [achievements, setAchievements] = useState<string[]>([]);
+  const [socials, setSocials] = useState<SocialEntry>({});
   const addSkill = (skill: string) => {
     setSkills((skills) => {
       if (skills.includes(skill)) return skills;
@@ -71,6 +86,9 @@ export function SectionsProvider({ children }: PropsWithChildren) {
         removeSkill,
         achievements,
         setAchievements,
+
+        socials,
+        setSocials,
       }}
     >
       {children}

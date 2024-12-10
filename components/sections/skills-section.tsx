@@ -1,10 +1,15 @@
 "use client";
 import { SectionHeading } from "./section-heading";
-import { Input } from "../input";
 import { useSections } from "@/contexts/sections";
 import { useMemo, useState } from "react";
 import { SKILLS } from "@/lib/constants";
-import { getSkillUrl } from "@/lib/exporter";
+import { getDeviconUrl } from "@/lib/exporter";
+import {
+  Dropdown,
+  DropdownInput,
+  DropdownItem,
+  DropdownItems,
+} from "../dropdown";
 
 type Option = {
   value: string;
@@ -15,7 +20,7 @@ const options: Option[] = Object.entries(SKILLS).map(([value, { name }]) => {
   return { name, value };
 });
 
-export function SkillsSection() {
+export function SkillSection() {
   const { skills, addSkill, removeSkill } = useSections();
   const [search, setSearch] = useState("");
   const filtered = useMemo(
@@ -36,40 +41,37 @@ export function SkillsSection() {
             onClick={() => removeSkill(skill)}
             key={skill}
           >
-            <img src={getSkillUrl(SKILLS[skill].icon)} className="w-4" />
+            <img src={getDeviconUrl(SKILLS[skill].icon)} className="w-4" />
             <span>{SKILLS[skill].name}</span>
-            <div className="opacity-0 group-hover:opacity-100 absolute inset-0 bg-gray-200/80 backdrop-blur-sm grid place-items-center transition-opacity duration-300 text-red-600 select-none font-bold">
+            <span className="opacity-0 group-hover:opacity-100 absolute inset-0 bg-gray-200/80 backdrop-blur-sm grid place-items-center transition-opacity duration-300 text-red-600 select-none font-bold overflow-hidden">
               Delete
-            </div>
+            </span>
           </span>
         ))}
       </div>
-
-      <div className="relative">
-        <Input
+      <Dropdown>
+        <DropdownInput
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="peer"
+          placeholder="Search skills like: Python, Javascript, Rust etc."
         />
-        <div className="opacity-0 rounded-md my-2 w-full overflow-auto max-h-0 border-0 peer-focus:border peer-focus:max-h-44 transition-all peer-focus:opacity-100 absolute top-full">
-          {filtered.map((op) => (
-            <div
-              key={op.value}
-              className="px-2 py-1 w-full cursor-pointer hover:bg-gray-800 flex gap-2 items-center"
-              onClick={() => {
-                addSkill(op.value);
-              }}
-            >
-              <img
-                src={getSkillUrl(SKILLS[op.value].icon)}
-                alt=""
-                className="w-4"
-              />
-              <span className="text-sm">{op.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+        <DropdownItems>
+          {filtered.length ? (
+            filtered.map((op) => (
+              <DropdownItem onSelect={() => addSkill(op.value)} key={op.value}>
+                <img
+                  src={getDeviconUrl(SKILLS[op.value].icon)}
+                  alt=""
+                  className="w-4"
+                />
+                <span className="text-sm">{op.name}</span>
+              </DropdownItem>
+            ))
+          ) : (
+            <div className="px-2 py-1 text-gray-400 text-sm">No results</div>
+          )}
+        </DropdownItems>
+      </Dropdown>
     </div>
   );
 }

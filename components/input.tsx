@@ -15,7 +15,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           "px-4 py-1 rounded-md w-full bg-transparent border focus:outline focus:outline-1 focus:outline-blue-600 focus:border-transparent text-white",
           className
         )}
-        autoComplete="username"
       />
     );
   }

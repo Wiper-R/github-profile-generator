@@ -1,12 +1,17 @@
-import { SKILLS } from "@/lib/constants";
+import { SocialEntry } from "@/contexts/sections";
+import { SKILLS } from "./skills.constants";
+import { SOCIALS } from "./socials.constants";
 type ExportReadmeProps = {
   title?: string;
   subTitle?: string;
   achievements?: string[];
   skills?: string[];
-  socials?: string[];
+  socials?: SocialEntry;
 };
-export function getSkillUrl(path: string): string {
+
+const ICONSIZE = "32px";
+
+export function getDeviconUrl(path: string): string {
   const url = new URL(
     "https://raw.githubusercontent.com/devicons/devicon/master/icons/"
   );
@@ -21,16 +26,37 @@ export default function prepareTemplate(props: ExportReadmeProps) {
   if (props.subTitle) {
     template += `\n${props.subTitle}`;
   }
+  if (props.achievements) {
+    var achievements = props.achievements
+      .filter((e) => e.length > 0)
+      .map((e, idx) => `${idx + 1}. ${e}`)
+      .join("\n");
+
+    if (achievements.length) template += `\n## Achievements\n${achievements}`;
+  }
+
   if (props.skills) {
     var skills = props.skills
       .map(
         (key) =>
-          `<a href="${SKILLS[key].url}"><img src="${getSkillUrl(
+          `<a href="${SKILLS[key].url}"><img src="${getDeviconUrl(
             SKILLS[key].icon
-          )}" style="width: 40px;"/></a>`
+          )}" style="width: ${ICONSIZE};"/></a>`
       )
       .join(" ");
-    template += `\n## Skills\n${skills}`;
+    if (skills.length) template += `\n## Skills\n${skills}`;
+  }
+
+  if (props.socials) {
+    var socials = Object.entries(props.socials)
+      .map(
+        ([key, value]) =>
+          `<img src="${getDeviconUrl(
+            SOCIALS[key].icon
+          )}" style="width: ${ICONSIZE};"/>`
+      )
+      .join(" ");
+    if (socials.length) template += `\n## Socials\n${socials}`;
   }
 
   return template;

@@ -6,7 +6,10 @@ export function UserInput({ className, ...props }: InputProps) {
   return (
     <input
       {...props}
-      className={cn("border-b bg-transparent outline-none", className)}
+      className={cn(
+        "border-b bg-transparent outline-none text-base",
+        className
+      )}
     />
   );
 }
